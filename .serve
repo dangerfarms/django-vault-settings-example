@@ -1,0 +1,4 @@
+#!/bin/bash
+export COMPOSE_PROJECT_NAME=wc-api
+docker-compose run --rm web ./manage.py migrate
+docker-compose run --service-ports --rm web ./manage.py runserver 0.0.0.0:8000

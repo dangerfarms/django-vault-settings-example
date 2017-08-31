@@ -1,0 +1,26 @@
+web:
+  build: .
+  command: ./manage.py runserver 0.0.0.0:8000
+  volumes:
+    - .:/app
+    - ./.bash_history:/root/.bash_history
+    - ./.ipython_history:/root/.ipython/profile_default/history.sqlite
+    - site-packages:/usr/local/lib/python3.5/site-packages
+    - pip-cache:/root/.cache/pip
+  ports:
+    - 8000:8000
+  links:
+    - db
+    - vault
+  environment:
+    DJANGO_SETTINGS_MODULE: project.settings_local
+    VAULT_TOKEN: root
+db:
+  image: mdillon/postgis
+
+vault:
+  image: vault
+  environment:
+    VAULT_DEV_ROOT_TOKEN_ID: root
+  cap_add:
+    - IPC_LOCK

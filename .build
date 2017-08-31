@@ -1,0 +1,5 @@
+#!/bin/bash
+export COMPOSE_PROJECT_NAME=wc-api
+docker-compose stop;
+docker-compose rm --force web;
+docker-compose build --pull;

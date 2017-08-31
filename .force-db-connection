@@ -1,0 +1,5 @@
+#!/bin/sh
+export COMPOSE_PROJECT_NAME=wc-api
+docker-compose run --rm web bash -c './manage.py makemigrations' > /dev/null
+echo "Waiting for db startup"
+sleep 10

@@ -1,0 +1,89 @@
+#!/bin/bash
+
+BOLD=$(tput bold);
+ERROR=$(tput setaf 1);
+WARNING=$(tput setaf 3);
+INFO=$(tput setaf 2);
+RESET=$(tput sgr0);
+
+
+# =========================================================
+# Step 1: Check developer's system is good for project
+# =========================================================
+echo "${INFO}STEP 1: HEALTH CHECK"
+echo "${RESET}First check that we have the danger farms tool-set installed."
+echo "python, docker, docker-compose, .env./"
+COUNTER=0
+echo -n "${RESET}python..."
+command -v python >/dev/null 2>&1;
+if [ $? != 0 ]; then
+  echo "${ERROR} not installed."
+  echo "${WARNING}Install for your OS"
+  COUNTER=$[$COUNTER +1]
+else
+  echo " installed"
+fi
+echo -n "${RESET}docker..."
+command -v docker >/dev/null 2>&1;
+if [ $? != 0 ]; then
+  echo "${ERROR} not installed."
+  echo "${WARNING}Install for your OS here: https://docs.docker.com/installation/"
+  COUNTER=$[$COUNTER +1]
+else
+  echo " installed"
+fi
+echo -n "${RESET}docker-compose..."
+command -v docker-compose >/dev/null 2>&1;
+if [ $? != 0 ]; then
+  echo "${ERROR} not installed."
+  echo "${WARNING}Install for your OS here: https://docs.docker.com/compose/install/"
+  COUNTER=$[$COUNTER +1]
+else
+  echo " installed"
+fi
+
+if [ $COUNTER != 0 ]; then
+  echo "${ERROR}Some dependencies missing. Please follow installation instructions above."
+  echo "${RESET}"
+  exit 1;
+fi
+echo "${RESET}"
+
+
+# =========================================================
+# Step 2: Setup up images, containers and data volumes
+# =========================================================
+echo "${INFO}STEP 2: Setup project image, containers and any volumes required${RESET}"
+touch .ipython_history
+touch .bash_history
+rm -rf .lib
+./.buildall
+echo "Complete"
+echo "${RESET}"
+
+
+# =========================================================
+# Step 3: DB setup
+# =========================================================
+echo "${INFO}STEP 3: Setup database ${RESET}"
+./.force-db-connection
+./.migrate
+#TODO: create basic user
+
+# =========================================================
+# Step 4: Adding git hooks to ensure we are awesome developers
+# =========================================================
+echo "${INFO}STEP 4: GIT HOOKS${RESET}"
+
+rm -rf .git/hooks;
+ln -s $(pwd)/.hooks .git/hooks
+
+echo "Installed."
+echo ""
+
+
+# =========================================================
+# Step 5: Setting origin master as base
+# =========================================================
+echo "${INFO}STEP 6: SET GIT UPSTREAM${RESET}"
+git branch --set-upstream-to=origin/development development;

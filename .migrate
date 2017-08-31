@@ -1,0 +1,3 @@
+#!/bin/bash
+export COMPOSE_PROJECT_NAME=wc-api
+docker-compose run --rm web bash -c "./manage.py makemigrations; ./manage.py migrate"

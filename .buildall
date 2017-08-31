@@ -1,0 +1,6 @@
+#!/bin/bash
+export COMPOSE_PROJECT_NAME=wc-api
+docker volume rm wc-api-site-packages
+docker-compose stop;
+docker-compose rm --force;
+docker-compose build;

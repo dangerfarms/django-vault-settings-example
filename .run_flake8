@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ ! -f /.dockerenv ]; then
+    echo "This script must be run from inside a docker instance. Run './.shell' to run bash inside the container"
+    exit 1
+fi
+
+flake8 \
+    --max-line-length=120    \
+    --exclude=project/*,*/migrations/*,.secrets/*,venv \
+    --max-complexity=13      \
+    .
+
+exit $?

@@ -1,0 +1,6 @@
+#!/bin/bash
+export COMPOSE_PROJECT_NAME=wc-api
+docker-compose run --rm web pip install -r requirements.dev.txt -U
+# Intermediate step to copy the file from docker until pycharm can rebuild on requirements change
+docker-compose run --rm -v ~/.danger/volumes/wc-api/local/lib/python3.5/site-packages:/root/.site-packages \
+  web cp -R /usr/local/lib/python3.5/site-packages/. /root/.site-packages
