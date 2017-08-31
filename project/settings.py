@@ -15,7 +15,7 @@ import dj_database_url
 
 environment = os.environ.get('DJANGO_SETTINGS_MODULE')
 
-if environment == 'project.settings_local':
+if environment in ['project.settings_local', 'project.settings_test']:
     from project.secrets import local as secrets
 else:
     from project.secrets.remote import secrets

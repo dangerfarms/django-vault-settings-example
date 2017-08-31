@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./.test_base $@ --settings=project.settings.test
+./.test_base $@ --settings=project.settings_test
