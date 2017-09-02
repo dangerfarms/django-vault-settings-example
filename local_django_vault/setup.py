@@ -32,7 +32,7 @@ setup(
     long_description=read_md('README.md'),
 
     # The project's main homepage.
-    url='https://github.com/dangerfarms/django-vault',
+    url='https://github.com/dangerfarms/local_django_vault',
 
     # Author details
     author='Lewis Taylor',

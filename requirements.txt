@@ -1,6 +1,5 @@
 django
 django_extensions
-dj-vault
 dj_database_url
 psycopg2
 hvac

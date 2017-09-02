@@ -28,10 +28,9 @@ class VaultSecretsClient(object):
     >>> secrets.all
 
     """
-    def __init__(self, namespace, hostname='vault'):
-        self.client = hvac.Client(url='http://{}:8200'.format(hostname), token=os.environ['VAULT_TOKEN'])
-
+    def __init__(self, namespace, hostname='vault', token=None):
         self.__dict__['namespace'] = namespace
+        self.__dict__['client'] = hvac.Client(url='http://{}:8200'.format(hostname), token=token)
 
     def __getattr__(self, item):
         if item in self.__dict__:

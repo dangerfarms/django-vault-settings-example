@@ -13,12 +13,15 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import dj_database_url
 
+from local_django_vault.django_vault.client import VaultSecretsClient
+
 environment = os.environ.get('DJANGO_SETTINGS_MODULE')
 
 if environment in ['project.settings_local', 'project.settings_test']:
     from project.secrets import local as secrets
 else:
-    from project.secrets.remote import secrets
+    from project.secrets.vault import remote as vault_secrets
+    secrets = VaultSecretsClient(vault_secrets.VAULT_NAMESPACE, vault_secrets.VAULT_HOSTNAME, vault_secrets.VAULT_TOKEN)
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -49,7 +52,7 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
-    'django_vault',
+    # 'django_vault',
 ]
 
 MIDDLEWARE = [

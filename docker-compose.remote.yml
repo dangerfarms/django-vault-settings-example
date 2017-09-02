@@ -1,18 +1,25 @@
-web:
-  build: .
-  command: ./manage.py runserver 0.0.0.0:8000
-  volumes:
-    - .:/app
-    - ./.bash_history:/root/.bash_history
-    - ./.ipython_history:/root/.ipython/profile_default/history.sqlite
-    - site-packages:/usr/local/lib/python3.5/site-packages
-    - pip-cache:/root/.cache/pip
-  ports:
-    - 8000:8000
-  links:
-    - db
-    - vault
-  environment:
-    DJANGO_SETTINGS_MODULE: project.settings
-db:
-  image: mdillon/postgis
+version: '2'
+
+services:
+    web:
+      build: .
+      command: ./manage.py runserver 0.0.0.0:8000
+      volumes:
+        - ./.bash_history:/root/.bash_history
+        - ./.ipython_history:/root/.ipython/profile_default/history.sqlite
+        - site-packages:/usr/local/lib/python3.5/site-packages
+        - pip-cache:/root/.cache/pip
+        - vault_settings_example_secrets:/app/project/secrets/vault/
+      ports:
+        - 8000:8000
+      links:
+        - db
+      environment:
+        DJANGO_SETTINGS_MODULE: project.settings
+    db:
+      image: mdillon/postgis
+
+volumes:
+    vault_settings_example_secrets:
+        driver: rancher-nfs
+        external: true
