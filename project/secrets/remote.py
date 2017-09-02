@@ -1,4 +1,7 @@
 from django_vault.client import VaultSecretsClient
 
 
-secrets = VaultSecretsClient('secret/wc-api')
+VAULT_HOSTNAME = 'vault.vault'
+VAULT_NAMESPACE = 'secret/wc-api'
+
+secrets = VaultSecretsClient(VAULT_NAMESPACE, VAULT_HOSTNAME)

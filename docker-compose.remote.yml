@@ -14,14 +14,5 @@ web:
     - vault
   environment:
     DJANGO_SETTINGS_MODULE: project.settings
-    VAULT_TOKEN: root
-
 db:
   image: mdillon/postgis
-
-vault:
-  image: vault
-  environment:
-    VAULT_DEV_ROOT_TOKEN_ID: root
-  cap_add:
-    - IPC_LOCK
